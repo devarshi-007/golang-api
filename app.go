@@ -20,6 +20,7 @@ import (
 	"github.com/Improwised/golang-api/cli"
 	"github.com/Improwised/golang-api/config"
 	"github.com/Improwised/golang-api/logger"
+	"github.com/Improwised/golang-api/monitoring"
 	"github.com/Improwised/golang-api/routinewrapper"
 	"github.com/getsentry/sentry-go"
 	"go.uber.org/zap"
@@ -35,19 +36,26 @@ func main() {
 	}
 	zap.ReplaceGlobals(logger)
 
-	// this function will logged error log in sentry
-	sentryLoggedFunc := func() {
-		err := recover()
-
-		if err != nil {
-			sentry.CurrentHub().Recover(err)
-			sentry.Flush(time.Second * 2)
-		}
+	err = monitoring.InitSentry(cfg.Sentry, logger)
+	if err != nil {
+		logger.Error("Failed to initialize Sentry", zap.Error(err))
 	}
 
-	// routine wrapper will handle go routine error also an log into sentry
-	routinewrapper.Init(sentryLoggedFunc)
-	defer sentryLoggedFunc()
+	if cfg.Sentry.IsEnabled {
+		// Sentry Go routine initialization
+		sentryLoggedFunc := func() {
+			err := recover()
+			if err != nil {
+				sentry.CurrentHub().Recover(err)
+				sentry.Flush(time.Second * 2)
+			}
+		}
+
+		routinewrapper.Init(sentryLoggedFunc)
+		defer sentryLoggedFunc()
+
+		defer monitoring.CloseSentry(cfg.Sentry, logger)
+	}
 
 	err = cli.Init(cfg, logger)
 	if err != nil {

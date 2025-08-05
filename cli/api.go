@@ -58,7 +58,6 @@ func GetAPICommandDef(cfg config.AppConfig, logger *zap.Logger) cobra.Command {
 					return err
 				}
 			}
-
 			// setup routes
 			err = routes.Setup(app, db, logger, cfg, events, promMetrics, pub)
 
