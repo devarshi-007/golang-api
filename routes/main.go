@@ -25,6 +25,7 @@ func Setup(app *fiber.App, goqu *goqu.Database, logger *zap.Logger, config confi
 	mu.Lock()
 
 	app.Use(middlewares.LogHandler(logger, pMetrics))
+	app.Use(middlewares.SentryMiddleware())
 
 	app.Use(swagger.New(swagger.Config{
 		BasePath: "/api/v1/",

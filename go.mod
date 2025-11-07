@@ -16,7 +16,7 @@ require (
 	github.com/ThreeDotsLabs/watermill-redisstream v1.2.2
 	github.com/asaskevich/EventBus v0.0.0-20200907212545-49d423059eef
 	github.com/doug-martin/goqu/v9 v9.18.0
-	github.com/getsentry/sentry-go v0.25.0
+	github.com/getsentry/sentry-go v0.35.0
 	github.com/go-resty/resty/v2 v2.7.0
 	github.com/go-sql-driver/mysql v1.7.1
 	github.com/gofiber/adaptor/v2 v2.2.1
@@ -151,7 +151,7 @@ require (
 	go.uber.org/multierr v1.9.0 // indirect
 	golang.org/x/exp v0.0.0-20220303212507-bbda1eaf7a17 // indirect
 	golang.org/x/net v0.20.0 // indirect
-	golang.org/x/sys v0.16.0 // indirect
+	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/protobuf v1.32.0 // indirect
 	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
